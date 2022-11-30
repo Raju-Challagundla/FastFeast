@@ -1,0 +1,82 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	
+	<head>
+		<title>List Deliveries</title>
+		
+		<link rel="stylesheet" 
+			type="text/css" 
+			href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/core.css}" />
+	</head>
+	
+	<body>
+		<div th:replace="~{fragments/header :: header}">Header</div>
+		<div class="container" style="max-width:100% !important">
+		
+			<h3>List Deliveries</h3>
+			
+			<hr/>
+			<table class="table table-bordered table-striped" id="deliveryTable">
+			
+				<thead>
+					<tr>
+						<th>Delivery Id</th>
+						<th>Status</th>
+						<th>Pickup Time</th>
+						<th>Delivered Time</th>
+						<th>Vehicle Title</th>
+						<th>Driver Name</th>
+						<th>Driver's License</th>
+						<th>Order Details</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="delivery: ${deliveries}">
+						<td th:text="${delivery.deliveryId}" />
+						<td th:text="${delivery.status.status}" />
+						<td th:text="${#dates.format(delivery.pickedupTime, 'MMM dd, yyyy HH:mm a zzz')}" />
+						<td th:text="${#dates.format(delivery.deliveryTime, 'MMM dd, yyyy HH:mm a zzz')}" />
+						<td th:text="${delivery.vehicle.vehiclePlate}" />
+						<td th:text="${delivery.driver.student.person.personName}" />
+						<td th:text="${delivery.driver.licenseNumber}" />
+						<td>
+							<table class="table table-bordered table-striped">
+								<tr>
+									<th>Order Id</th>
+									<th>Status</th>
+									<th>Ordered Time</th>
+								</tr>
+								<tr th:each="order: ${delivery.orders}">
+									<td th:text="${order.orderId}"/>
+									<td th:text="${order.status.status}"/>
+									<td th:text="${#dates.format(order.orderedTime, 'MMM dd, yyyy HH:mm a zzz')}" />
+								</tr>
+							</table>
+						</td>
+						<td>
+							<a th:href="@{/admin/manageDeliveryForm(deliveryId=${delivery.deliveryId})}" class="btn btn-info">Manage</a>
+						</td>
+					</tr>
+				</tbody>
+				
+			</table>
+			<div th:insert="~{fragments/footer :: footer}">&copy; 2017 The Static Templates</div>
+		</div>
+		
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$("#deliveryTable").DataTable({
+						'aoColumnDefs': [{
+        				'bSortable': false,
+        				'aTargets': [-1] /* 1st one, start by the right */
+    				}]
+				});
+			})
+		</script>
+	</body>
+	
+</html>

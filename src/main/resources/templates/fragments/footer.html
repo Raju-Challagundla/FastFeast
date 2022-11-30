@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+    <!--/*  Multiple fragments may be defined in one file */-->
+    <div th:fragment="footer" th:align="center">
+    
+    	<i>
+        &copy; <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2017</span>
+        <span>UNCC FastFeast APP</span></i>
+    </div>
+    <div th:fragment="footer-admin" th:align="center">
+    <i>
+        &copy; <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2017</span>
+       <span>UNCC FastFeast APP</span><span th:text="${@environment.getProperty('app.version')}"></span></i>
+    </div>
+</body>
+</html>
+

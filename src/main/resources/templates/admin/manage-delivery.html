@@ -1,0 +1,64 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>CampusEats - Manage Delivery</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/core.css}" />
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div th:replace="~{fragments/header :: header}">Header</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+			<form autocomplete="off" action="#"
+					th:action="@{manageDelivery(deliveryId=${delivery.deliveryId})}" th:object="${delivery}"
+					method="post" class="form-horizontal" role="form">
+					<h2>Manage Delivery</h2>
+					<div class="form-group">
+					
+						<div class="col-sm-9">
+							<label th:text="'Order Id : '"></label>
+							<label th:text="${delivery.lastSelectedOrder}"></label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label th:text="'Select Driver'"></label>
+							<select class="form-control" id="selecDriver" th:field="${delivery.lastSelectedStudent}">
+							    <option value="0">Select Driver</option>
+							    <option th:each="student : ${delivery.students}" 
+							    th:value="${student.studentId}" 
+							    th:text="${student.studentId}+'-'+${student.person.personName}"
+							    th:selected="${delivery.lastSelectedStudent}"></option>
+						    </select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label th:text="'Select Vehicle'"></label>
+							<select class="form-control" id="selectVehicle" th:field="${delivery.lastSelectedVehicle}">
+							    <option value="0">Select Vehicle</option>
+							    <option th:each="vehicle : ${delivery.vehicles}" 
+							    th:value="${vehicle.vehicleId}" 
+							    th:text="${vehicle.make}+'-'+${vehicle.model}+'-'+${vehicle.vehiclePlate}"
+							    th:selected="${delivery.lastSelectedVehicle}"></option>
+						    </select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-9">
+							<button type="submit" class="btn btn-primary col-2">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<a th:href="@{deliveries}">Back to list</a>
+		<div th:insert="~{fragments/footer :: footer}">&copy; 2017 The Static Templates</div>
+	</div>
+</body>
+</html>

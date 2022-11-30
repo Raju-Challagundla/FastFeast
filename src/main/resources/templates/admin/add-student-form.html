@@ -1,0 +1,102 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>FastFeast - Add Student</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/core.css}" />
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div th:replace="~{fragments/header :: header}">Header</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+			<form autocomplete="off" action="#"
+					th:action="@{saveStudent}" th:object="${student}"
+					method="post" class="form-horizontal" role="form">
+					<h2>Add New Student</h2>
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label th:if="${#fields.hasErrors('personName')}"
+								th:errors="*{personName}" class="validation-message"></label> <input
+								type="text" th:field="*{personName}"
+								class="form-control col-4 mb-4" placeholder="Enter Name" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label th:if="${#fields.hasErrors('personEmail')}"
+								th:errors="*{personEmail}" class="validation-message"></label> <input
+								type="text" th:field="*{personEmail}"
+								class="form-control col-4 mb-4" placeholder="Enter email" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label th:if="${#fields.hasErrors('cell')}" th:errors="*{cell}"
+								class="validation-message"></label> <input type="text"
+								th:field="*{cell}" class="form-control col-4 mb-4"
+								placeholder="Enter Cell Number" />
+
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-9">
+							<input type="text" th:field="*{graduationYear}"
+								class="form-control col-4 mb-4"
+								placeholder="Enter Graduation Year" /> <label
+								th:if="${#fields.hasErrors('graduationYear')}"
+								th:errors="*{graduationYear}" class="validation-message"></label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-9">
+							<input type="text" th:field="*{major}"
+								class="form-control col-4 mb-4" placeholder="Enter Major" /> <label
+								th:if="${#fields.hasErrors('major')}" th:errors="*{major}"
+								class="validation-message"></label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-9">
+							<input type="text" th:field="*{licenseNumber}"
+								class="form-control col-4 mb-4"
+								placeholder="Enter Driver's License Number" /> <label
+								th:if="${#fields.hasErrors('licenseNumber')}"
+								th:errors="*{licenseNumber}" class="validation-message"></label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-9">
+							<input type="text" th:field="*{dateHired}"
+								class="form-control col-4 mb-4"
+								placeholder="Enter Driver's hired date (MM/dd/yyyy)" /> <label
+								th:if="${#fields.hasErrors('dateHired')}"
+								th:errors="*{dateHired}" class="validation-message"></label>
+						</div>
+					</div>
+					<!-- <div class="form-group">
+						<div class="col-sm-9">
+							<input type="text" th:field="*{rating}"
+								class="form-control col-4 mb-4"
+								placeholder="Enter Driver's dafault rating" /> <label
+								th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"
+								class="validation-message"></label>
+						</div>
+					</div> -->
+					<div class="form-group">
+						<div class="col-sm-9">
+							<button type="submit" class="btn btn-primary col-2">Add Student</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<a th:href="@{students}">Back to list</a>
+		<div th:insert="~{fragments/footer :: footer}">&copy; 2017 The Static Templates</div>
+	</div>
+</body>
+</html>

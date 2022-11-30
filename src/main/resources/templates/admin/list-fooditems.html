@@ -1,0 +1,65 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	
+	<head>
+		<title>List Food Items</title>
+		
+		<link rel="stylesheet" 
+			type="text/css" 
+			href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/core.css}" />
+	</head>
+	
+	<body>
+		<div th:replace="~{fragments/header :: header}">Header</div>
+		<div class="container">
+		
+			<h3>List Food Items</h3>
+			
+			<hr/>
+			<a th:href="@{addFoodItemForm}" class="btn btn-primary">Add Food Item</a>
+			<br/><br/>
+			<table class="table table-bordered table-striped" id="foodItemTable">
+			
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Food Item</th>
+						<th>Price</th>
+						<th>Restaurant Name</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item: ${foodItems}">
+						<td th:text="${item.itemId}" />
+						<td th:text="${item.item}" />
+						<td th:text="'$'+${item.price}" />
+						<td th:text="${item.restaurant.restaurantName}" />
+						<td>
+							<a th:href="@{/admin/showFoodItemUpdateForm(itemId=${item.itemId})}" class="btn btn-info">Modify</a>
+							
+							<a th:href="@{/admin/deleteFoodItem(itemId=${item.itemId})}" class="btn btn-danger ml-2">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+				
+			</table>
+			<div th:insert="~{fragments/footer :: footer}">&copy; 2017 The Static Templates</div>
+		</div>
+		
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$("#foodItemTable").DataTable({
+						'aoColumnDefs': [{
+        				'bSortable': false,
+        				'aTargets': [-1] /* 1st one, start by the right */
+    				}]
+				});
+			})
+		</script>
+	</body>
+	
+</html>

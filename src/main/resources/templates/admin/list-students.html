@@ -1,0 +1,77 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	
+	<head>
+		<title>List Students / Drivers</title>
+		
+		<link rel="stylesheet" 
+			type="text/css" 
+			href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/core.css}" />
+	</head>
+	
+	<body>
+		<div th:replace="~{fragments/header :: header}">Header</div>
+		<div class="container">
+		
+			<h3>List Students / Drivers</h3>
+			
+			<hr/>
+			<a th:href="@{addStudentForm}" class="btn btn-primary">Add Student / Driver</a>
+			<br/><br/>
+			<table class="table table-bordered table-striped" id="studentTable">
+			
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Email</th>
+						<th>License Number</th>
+						<th>Date hired</th>
+						<th>Rating</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="student: ${students}">
+						<td th:text="${student.studentId}" />
+						<td th:text="${student.person.personName}" />
+						<td th:text="${student.person.personEmail}" />
+<!-- 						<td th:if="${not #lists.isEmpty(student.drivers)}" th:text="${not #lists.isEmpty(student.drivers) ? student.drivers[0].licenseNumber} : 'NA'" />
+ -->					
+ 						<td>
+ 							 <th:block th:if="${not #lists.isEmpty(student.drivers)}" th:text="${student.drivers[0].licenseNumber}"></th:block>
+    						 <th:block th:unless="${not #lists.isEmpty(student.drivers)}">NA</th:block>
+ 						</td>
+ 						<td>
+ 							 <th:block th:if="${not #lists.isEmpty(student.drivers)}" th:text="${#dates.format(student.drivers[0].dateHired, 'MMM dd, yyyy')}"></th:block>
+    						 <th:block th:unless="${not #lists.isEmpty(student.drivers)}">NA</th:block>
+ 						</td>
+						<td th:text="${student.rating}" />
+						<td>
+							<a th:href="@{/admin/showUpdateForm(studentId=${student.studentId})}" class="btn btn-info">Modify</a>
+							
+							<a th:href="@{/admin/deleteStudent(studentId=${student.studentId})}" class="btn btn-danger ml-2">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+				
+			</table>
+			<div th:insert="~{fragments/footer :: footer}">&copy; 2017 The Static Templates</div>
+		</div>
+		
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$("#studentTable").DataTable({
+						'aoColumnDefs': [{
+        				'bSortable': false,
+        				'aTargets': [-1] /* 1st one, start by the right */
+    				}]
+				});
+			})
+		</script>
+	</body>
+	
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>FastFeast - Home</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+<!-- <link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css" />
+ -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> 
+<script
+	src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script
+	src="https://cdn.datatables.net/select/1.5.0/js/dataTables.select.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/select/1.5.0/css/select.dataTables.min.css" />
+<script>
+$(document).ready(function() {
+    $("#itemsTable").DataTable({
+		'paging': false,
+	    'ordering': false,
+	    'info': false,
+       'select': {
+            style:    'multi',
+            selector: 'td:first-child'
+        },
+    } );
+    $('#itemsTable tbody').on('click', 'tr', function () {
+		 debugger;
+		 var myTable = $('#itemsTable').DataTable();
+		 var total = getSelected();
+		 if(!$(this).hasClass('selected')){
+		 	total += myTable.rows(this).data()[0][1].replace("$", "") << 0;
+		 } else {
+		 	total -= myTable.rows(this).data()[0][1].replace("$", "") << 0;
+		 }
+		$("#totalPay").html('Pay $'+total+'.00');
+      
+ 	});
+} );
+
+function getSelected() {
+	debugger;
+	var myTable = $('#itemsTable').DataTable();
+	console.log(myTable.rows('.selected').data().length)
+	var total = 0;
+	var ids = $.map(myTable.rows('.selected').data(), function (item) {
+        return total += item[1].replace("$", "") << 0;
+    });
+    return total;
+}	
+</script>
+<style>
+.ui-autocomplete {
+	max-height: 200px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+	/* add padding to account for vertical scrollbar */
+	padding-right: 20px;
+}
+
+.maintxt {
+	background-image: url(images/food.jpg);
+	background-size: auto;
+	background-color: transparent;
+	width: 110px;
+	height: 612px;
+}
+
+.test {
+	position: relative;
+	height: 60vh;
+	/*width: 100%;*/
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.test::before {
+	content: "";
+	background-image: url(../images/test.jpeg);
+	background-size: cover;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	opacity: 0.25;
+}
+
+.btn-drop-style {
+	color: #212529;
+	border-color: #ffffff;
+	background-color: #ffffff;
+}
+
+.margin-ctrl {
+	margin-right: 10%;
+}
+
+h1 {
+	position: absolute;
+	color: #ffffff;
+	font-size: 4rem;
+	/* line-height: 0.9; */
+	text-align: center;
+}
+.dataTables_wrapper{
+	width:75%;
+}
+</style>
+<script th:inline="javascript">
+	$( function() {
+		debugger;
+	    var availableTags = [[${resNames}]]; 
+	    var restaurants = [[${restaurants}]]; 
+	    $( "#tags" ).autocomplete({
+	      source: availableTags,
+	      minLength:2,
+	      close: function (event, ui) { 
+		     window.location.href = 'nav?restaurantId='+restaurants[this.value];
+	      }
+	    });
+  });
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-7" style="padding: 0;">
+				<a href="#" th:href="@{/}"><img src="../images/logo.jpg" height="100%" width="25%"></a><i
+					style="vertical-align: middle; padding: 0;">Students, sugar,
+					spice and everything is nice</i>
+			</div>
+			<div class="col-md-5" style="text-align: right; margin-top: 4%;">
+				<span> <a href="#" th:href="@{/login}">Login</a></span>&nbsp;&nbsp;&nbsp;
+				<span> <a href="#" th:href="@{/admin/registration}">SignUp</a></span>
+			</div>
+		</div>
+		<div class="row" style="padding-top: 2%">
+			<div class="input-group mb-3" style="top: 15%">
+				<div class="input-group-prepend" style="padding-left: 10%">
+					<button class="btn btn-drop-style dropdown-toggle" type="button"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">UNCC
+						Campus</button>
+				</div>
+				<input id="tags" type="text" class="form-control margin-ctrl"
+					aria-label="Text input with dropdown button"
+					style="margin-right: 10%">
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 15px;">
+			<span><b>Restaurant : </b><span th:utext="${restaurant.restaurantName}"></span></span>
+		</div>
+		<div class="row test">
+			<table class="table table-bordered table-striped" id="itemsTable"
+				style="background-color: #ffffff">
+
+				<thead>
+					<tr>
+						<!-- <th>Select</th> -->
+						<th>Item</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:class="dt-control" th:each="item: ${restaurant.items}">
+						<td th:text="${item.item}" />
+						<td th:text="'$'+${item.price}" />
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row"
+			style="padding-top: 2%; padding-right: 15px; float: right;">
+			<button id="totalPay" type="button" class="btn-lg btn-primary">Pay
+				$0.00</button>
+		</div>
+	</div>
+</body>
+</html>

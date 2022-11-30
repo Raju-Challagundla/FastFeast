@@ -1,0 +1,84 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	
+	<head>
+		<title>List Orders</title>
+		
+		<link rel="stylesheet" 
+			type="text/css" 
+			href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/core.css}" />
+	</head>
+	
+	<body>
+		<div th:replace="~{fragments/header :: header}">Header</div>
+		<div class="container" style="max-width:100% !important">
+		
+			<h3>List Orders</h3>
+			
+			<hr/>
+			<!-- <a th:href="@{addRestaurantForm}" class="btn btn-primary">Add Restaurant</a>
+			<br/><br/> -->
+			<table class="table table-bordered table-striped" id="orderTable">
+			
+				<thead>
+					<tr>
+						<th>Order Id</th>
+						<th>Status</th>
+						<th>Ordered Time</th>
+						<th>Total price</th>
+						<th>Delivery Location</th>
+						<th>Drop off point</th>
+						<th>Delivery Charge</th>
+						<th>Menu Details</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="order: ${orders}">
+						<td th:text="${order.orderId}" />
+						<td th:text="${order.status.status}" />
+						<!-- ${#dates.format(order.orderedTime, 'dd-MM-yyyy HH:mm')} -->
+						<td th:text="${#dates.format(order.orderedTime, 'MMM dd, yyyy HH:mm a zzz')}" />
+						<td th:text="'$'+${order.totalPrice}" />
+						<td th:text="${order.location.locationName}" />
+						<td th:text="${order.location.dropOffPoint}" />
+						<td th:text="'$'+${order.deliveryCharge}" />
+						<td>
+							<table class="table table-bordered table-striped">
+								<tr>
+									<th>Item</th>
+									<th>Price</th>
+								</tr>
+								<tr th:each="item : ${order.items}">
+									<td th:text="${item.item}"/>
+									<td th:text="'$'+${item.price}"/>
+								</tr>
+							</table>
+						</td>
+						<!-- <td>
+							<a th:href="@{/admin/showResUpdateForm(orderId=${order.orderId})}" class="btn btn-info">Update</a>
+							
+							<a th:href="@{/admin/deleteRestaurant(orderId=${order.orderId})}" class="btn btn-danger ml-2">Delete</a>
+						</td> -->
+					</tr>
+				</tbody>
+				
+			</table>
+			<div th:insert="~{fragments/footer :: footer}">&copy; 2017 The Static Templates</div>
+		</div>
+		
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$("#orderTable").DataTable({
+						'aoColumnDefs': [{
+        				'bSortable': false,
+        				'aTargets': [-1] /* 1st one, start by the right */
+    				}]
+				});
+			})
+		</script>
+	</body>
+	
+</html>
