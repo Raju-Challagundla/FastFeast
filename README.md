@@ -25,7 +25,7 @@ Java 8
 5. Import as **Maven projects**
 6. Run **mvn clean install**
 7. Make sure port **8080** is available for use or go to **application.properties** and add the port as you deemed to necessary.
-8. Import database [a relative link](dump_current.sql) into mysql database
+8. Import database [dump](dump_current.sql) into mysql database
 9. Configure MySQL **application.properties**
   <pre>
 # ==============================================================
