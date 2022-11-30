@@ -30,7 +30,7 @@ Java 8
 # ==============================================================
 # = Data Source
 # ==============================================================
-spring.datasource.url=jdbc:mysql://localhost:3306/campuseats
+spring.datasource.url=jdbc:mysql://localhost:3306/fastfeast
 spring.datasource.username= root
 spring.datasource.password= root
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
