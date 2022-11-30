@@ -19,13 +19,14 @@ Java 8
 
 1. Download or clone the source code
 2. Make sure you are using an IDE 
-  - [SpringToolSuite](https://spring.io/tools) (Preferable) 
-  - or Eclipse
+    - [SpringToolSuite](https://spring.io/tools) (Preferable) 
+    - or Eclipse
 4. Make sure **[lombok](https://projectlombok.org/)** is installed.
 5. Import as **Maven projects**
 6. Run **mvn clean install**
 7. Make sure port **8080** is available for use or go to **application.properties** and add the port as you deemed to necessary.
-8. Configure MySQL **application.properties**
+8. Import database [a relative link](dump_current.sql) into mysql database
+9. Configure MySQL **application.properties**
   <pre>
 # ==============================================================
 # = Data Source
