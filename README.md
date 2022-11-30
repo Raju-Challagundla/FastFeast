@@ -1,4 +1,4 @@
-# CampusEats-Backoffice
+# FastFeast
 
 ## Technologies used 
 <pre>
